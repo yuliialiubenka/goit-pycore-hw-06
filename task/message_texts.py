@@ -23,7 +23,9 @@ INVALID_NAME_FORMAT = (
     "Invalid name format. Use letters with optional spaces, hyphens, or apostrophes."
 )
 INVALID_PHONE_FORMAT = (
-    "Invalid phone format. Use 10-15 digits with optional leading '+'. Example: "
-    "+CCXXXXXXXXXX | XXXXXXXXXX."
+    "Invalid phone format. Use local number (10 digits, no spaces).\n"
+    "Examples: 0501234567 | 050-123-4567 | (050)123-4567"
 )
 INVALID_ARGUMENT_FORMAT = "Invalid format for argument {arg_index}."
+
+PHONE_NOT_FOUND_IN_RECORD = "Phone number {phone} not found in record"

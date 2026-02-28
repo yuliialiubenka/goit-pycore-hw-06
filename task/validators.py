@@ -7,36 +7,40 @@ This module provides validation functions for different argument types:
 - General format validators
 """
 
+import re
+
 
 def is_valid_phone(phone: str) -> bool:
     """
     Validate phone number format.
 
-    Checks if phone number contains only digits and optional '+' at the start.
-    Length must be between 10 and 15 digits.
+    Accepts local numbers only (10 digits starting with 0).
+    Allows hyphens and parentheses as separators, but no spaces or '+'.
 
     Args:
-        phone: Phone number string to validate.
+        phone: Phone number string without spaces.
 
     Returns:
         True if phone number is valid, False otherwise.
 
     Example:
-        >>> is_valid_phone("1234567890")
+        >>> is_valid_phone("0987654321")
         True
-        >>> is_valid_phone("+380501234567")
+        >>> is_valid_phone("098-765-4321")
         True
-        >>> is_valid_phone("123abc")
+        >>> is_valid_phone("+380987654321")  # International is invalid here
+        False
+        >>> is_valid_phone("098 765-4321")  # Spaces NOT allowed
         False
     """
-    # Remove whitespace and allow a single leading '+'
-    normalized = phone.strip()
+    if not isinstance(phone, str) or " " in phone:  # Reject if spaces present
+        return False
 
-    if normalized.startswith("+"):
-        normalized = normalized[1:]
+    # Extract only digits
+    digits_only = re.sub(r"\D", "", phone)
 
-    # Check if remaining characters are digits and length is within bounds
-    return normalized.isdigit() and 10 <= len(normalized) <= 15
+    # Local format: exactly 10 digits starting with 0, NO '+' allowed
+    return len(digits_only) == 10 and digits_only.startswith("0") and "+" not in phone
 
 
 def is_valid_name(name: str) -> bool:
